@@ -265,3 +265,23 @@ if uploadedFile is not None:
                 plt.style.use('dark_background')
                 ax.set_title('')
                 st.pyplot(fig)
+
+        # sentiment analysis
+        st.header("Sentiment Analysis😊")
+        pos, neg, neu = helper.sentimentAnalysis(selectedUser, dataFrame)
+        total = pos + neg + neu
+        if total == 0:
+            st.write("No text messages to analyze")
+        else:
+            col1, col2 = st.columns(2)
+            with col1:
+                fig, ax = plt.subplots()
+                labels = ['Positive', 'Negative', 'Neutral']
+                values = [pos, neg, neu]
+                ax.pie(values, labels=labels, autopct='%1.1f%%', colors=plt.cm.Pastel2.colors)
+                ax.axis('equal')
+                st.pyplot(fig)
+            with col2:
+                st.write('Positive:', pos)
+                st.write('Negative:', neg)
+                st.write('Neutral:', neu)

@@ -32,6 +32,7 @@ WhatsChat provides various features to analyze your chats, including:
 - _Emoji Analysis_: Shows the most frequently used emojis.
 - _Messages Extractor_: Extracts messages for a specific date.
 - _Reply Time Analysis_: Shows how much time each person takes to reply to a message.
+- _Sentiment Analysis_: Visualizes the proportion of positive, negative and neutral messages.
 
 You can perform all these analyses on group chats as well as individual chats.
 
