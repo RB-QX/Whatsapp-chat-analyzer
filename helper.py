@@ -6,6 +6,8 @@ import re
 import regex
 import streamlit as st
 from datetime import datetime
+from nltk.sentiment import SentimentIntensityAnalyzer
+import nltk
 
 
 def fetchStats(selectedUser, dataFrame):
@@ -158,3 +160,27 @@ def replyTime (selectedUser, x):
         timeSelected = timeDifference[timeDifference['user'] == selectedUser]['replyTime'].iloc[0]
 
     return timeDifference, timeSelected
+
+
+def sentimentAnalysis(selectedUser, x):
+    nltk.download('vader_lexicon', quiet=True)
+    sia = SentimentIntensityAnalyzer()
+    if selectedUser != "Overall":
+        x = x[x['user'] == selectedUser]
+
+    if x.empty:
+        return 0, 0, 0
+
+    def label_sentiment(msg):
+        score = sia.polarity_scores(str(msg))['compound']
+        if score >= 0.05:
+            return 'Positive'
+        if score <= -0.05:
+            return 'Negative'
+        return 'Neutral'
+
+    sentiments = x['message'].apply(label_sentiment)
+    positive = (sentiments == 'Positive').sum()
+    negative = (sentiments == 'Negative').sum()
+    neutral = (sentiments == 'Neutral').sum()
+    return positive, negative, neutral
